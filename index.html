@@ -6,18 +6,19 @@
 <title>Sistem Amprahan Farmasi</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  html{height:100%}
-  body{font-family:Arial,sans-serif;font-size:14px;background:#f0f2f5;color:#333;height:100vh;height:100dvh;overflow:hidden}
-  #halaman-login{display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;padding:20px;overflow-y:auto}
+  body{font-family:Arial,sans-serif;font-size:14px;background:#f0f2f5;color:#333;min-height:100vh}
+  #halaman-login{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
   .login-card{background:#fff;border-radius:12px;padding:40px 32px;width:100%;max-width:400px;box-shadow:0 2px 16px rgba(0,0,0,0.10)}
   .login-card h1{font-size:20px;font-weight:700;color:#1a56db;margin-bottom:4px;text-align:center}
   .login-card p{font-size:13px;color:#666;text-align:center;margin-bottom:28px}
   .login-logo{text-align:center;margin-bottom:16px;font-size:40px}
-  #halaman-app{display:none;flex-direction:column;height:100%;overflow:hidden}
+  #halaman-app{display:none;min-height:100vh}
 
-  /* ── HEADER TETAP (TIDAK IKUT SCROLL SAMA SEKALI) ── */
+  /* ── STICKY HEADER ── */
   .sticky-header{
-    flex-shrink:0;
+    position:sticky;
+    top:0;
+    z-index:50;
     box-shadow:0 2px 8px rgba(0,0,0,0.12);
   }
   .topbar{background:#1a56db;color:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
@@ -33,10 +34,7 @@
   .tab.active{color:#1a56db;border-bottom-color:#1a56db}
   .tab:hover:not(.active){background:#f5f7ff;color:#333}
 
-  .content{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0;width:100%}
-  .tab-panel{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
-  .tab-panel-fixed{flex-shrink:0;padding:16px 16px 0;max-width:900px;margin:0 auto;width:100%;box-sizing:border-box}
-  .tab-panel-scroll{flex:1;overflow-y:auto;min-height:0;padding:16px;max-width:900px;margin:0 auto;width:100%;box-sizing:border-box}
+  .content{padding:16px;max-width:900px;margin:0 auto}
   .card{background:#fff;border-radius:10px;padding:20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.07)}
   .card h3{font-size:14px;font-weight:700;color:#1a56db;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #eee}
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -248,7 +246,7 @@
   <div class="content">
 
     <!-- TAB FORM -->
-    <div id="tab-form" class="tab-panel-scroll" data-tabpanel style="display:none;flex:1">
+    <div id="tab-form" class="tab-panel" style="display:none">
       <div class="card">
         <h3>📋 Form Amprahan Baru</h3>
         <div class="form-grid">
@@ -300,67 +298,58 @@
     </div>
 
     <!-- TAB STATUS -->
-    <div id="tab-status" class="tab-panel" data-tabpanel style="display:none">
-      <div class="tab-panel-fixed">
-        <div class="filter-bar">
-          <div class="chip active" onclick="setFilterStatus('semua',this)">Semua</div>
-          <div class="chip" onclick="setFilterStatus('Belum Dilayani',this)">Belum Dilayani</div>
-          <div class="chip" onclick="setFilterStatus('Sudah Dilayani',this)">Sudah Dilayani</div>
-          <div class="chip" onclick="setFilterStatus('Batal',this)">Batal</div>
-          <button class="btn btn-secondary btn-sm" style="margin-left:auto" onclick="loadAmprahan()">↻ Refresh</button>
-        </div>
+    <div id="tab-status" class="tab-panel" style="display:none">
+      <div class="filter-bar">
+        <div class="chip active" onclick="setFilterStatus('semua',this)">Semua</div>
+        <div class="chip" onclick="setFilterStatus('Belum Dilayani',this)">Belum Dilayani</div>
+        <div class="chip" onclick="setFilterStatus('Sudah Dilayani',this)">Sudah Dilayani</div>
+        <div class="chip" onclick="setFilterStatus('Batal',this)">Batal</div>
+        <button class="btn btn-secondary btn-sm" style="margin-left:auto" onclick="loadAmprahan()">↻ Refresh</button>
       </div>
-      <div class="tab-panel-scroll">
-        <div id="list-status"></div>
-        <div id="pag-status"></div>
-      </div>
+      <div id="list-status"></div>
+      <div id="pag-status"></div>
     </div>
 
     <!-- TAB GUDANG -->
-    <div id="tab-gudang" class="tab-panel" data-tabpanel style="display:none">
-      <div class="tab-panel-fixed">
-        <div class="notif-banner" id="notif-banner" style="display:none">
-          🔔 Aktifkan notifikasi agar muncul pemberitahuan otomatis saat ada amprahan baru masuk.
-          <button onclick="mintaIzinNotif()">Aktifkan</button>
-        </div>
-        <div class="stat-grid" id="stat-grid">
-          <div class="stat total"><div class="stat-num">-</div><div class="stat-label">Total</div></div>
-          <div class="stat belum"><div class="stat-num">-</div><div class="stat-label">Belum Dilayani</div></div>
-          <div class="stat sudah"><div class="stat-num">-</div><div class="stat-label">Sudah Dilayani</div></div>
-          <div class="stat batal"><div class="stat-num">-</div><div class="stat-label">Batal</div></div>
-        </div>
-        <div class="filter-bar">
-          <div class="chip active" onclick="setFilterGudang('semua',this)">Semua</div>
-          <div class="chip" onclick="setFilterGudang('Belum Dilayani',this)">Belum Dilayani</div>
-          <div class="chip" onclick="setFilterGudang('Sudah Dilayani',this)">Sudah Dilayani</div>
-          <div class="chip" onclick="setFilterGudang('Batal',this)">Batal</div>
-        </div>
-        <div class="filter-bar" id="filter-bar-kategori">
-          <span style="font-size:11px;font-weight:600;color:#888;white-space:nowrap">Kategori:</span>
-          <div class="chip active" onclick="setFilterKategori('semua',this)">Semua</div>
-          <div class="chip" onclick="setFilterKategori('Cito',this)">⚡ Cito</div>
-          <div class="chip" onclick="setFilterKategori('Rutin',this)">🔁 Rutin</div>
-          <div class="chip" onclick="setFilterKategori('Elektif',this)">📋 Elektif</div>
-        </div>
-        <div class="filter-bar" id="filter-bar-jenis">
-          <span style="font-size:11px;font-weight:600;color:#888;white-space:nowrap">Jenis:</span>
-          <div class="chip active" onclick="setFilterJenis('semua',this)">Semua</div>
-          <div class="chip" onclick="setFilterJenis('Obat',this)">💊 Obat</div>
-          <div class="chip" onclick="setFilterJenis('BMHP',this)">🩺 BMHP</div>
-          <div class="chip" onclick="setFilterJenis('Cairan',this)">💧 Cairan</div>
-          <div class="chip" onclick="setFilterJenis('B3',this)">⚗️ B3</div>
-        </div>
-        <div class="filter-bar">
-          <input type="text" class="search-box" id="search-gudang" placeholder="Cari ruangan / petugas / ID..." oninput="resetPagGudang()" style="margin-left:0;width:100%;max-width:340px">
-          <button class="btn btn-secondary btn-sm" onclick="loadGudang()">↻ Refresh</button>
-        </div>
+    <div id="tab-gudang" class="tab-panel" style="display:none">
+      <div class="notif-banner" id="notif-banner" style="display:none">
+        🔔 Aktifkan notifikasi agar muncul pemberitahuan otomatis saat ada amprahan baru masuk.
+        <button onclick="mintaIzinNotif()">Aktifkan</button>
       </div>
-      <div class="tab-panel-scroll">
-        <div id="list-gudang"></div>
-        <div id="pag-gudang"></div>
+      <div class="stat-grid" id="stat-grid">
+        <div class="stat total"><div class="stat-num">-</div><div class="stat-label">Total</div></div>
+        <div class="stat belum"><div class="stat-num">-</div><div class="stat-label">Belum Dilayani</div></div>
+        <div class="stat sudah"><div class="stat-num">-</div><div class="stat-label">Sudah Dilayani</div></div>
+        <div class="stat batal"><div class="stat-num">-</div><div class="stat-label">Batal</div></div>
       </div>
+      <div class="filter-bar">
+        <div class="chip active" onclick="setFilterGudang('semua',this)">Semua</div>
+        <div class="chip" onclick="setFilterGudang('Belum Dilayani',this)">Belum Dilayani</div>
+        <div class="chip" onclick="setFilterGudang('Sudah Dilayani',this)">Sudah Dilayani</div>
+        <div class="chip" onclick="setFilterGudang('Batal',this)">Batal</div>
+      </div>
+      <div class="filter-bar" id="filter-bar-kategori">
+        <span style="font-size:11px;font-weight:600;color:#888;white-space:nowrap">Kategori:</span>
+        <div class="chip active" onclick="setFilterKategori('semua',this)">Semua</div>
+        <div class="chip" onclick="setFilterKategori('Cito',this)">⚡ Cito</div>
+        <div class="chip" onclick="setFilterKategori('Rutin',this)">🔁 Rutin</div>
+        <div class="chip" onclick="setFilterKategori('Elektif',this)">📋 Elektif</div>
+      </div>
+      <div class="filter-bar" id="filter-bar-jenis">
+        <span style="font-size:11px;font-weight:600;color:#888;white-space:nowrap">Jenis:</span>
+        <div class="chip active" onclick="setFilterJenis('semua',this)">Semua</div>
+        <div class="chip" onclick="setFilterJenis('Obat',this)">💊 Obat</div>
+        <div class="chip" onclick="setFilterJenis('BMHP',this)">🩺 BMHP</div>
+        <div class="chip" onclick="setFilterJenis('Cairan',this)">💧 Cairan</div>
+        <div class="chip" onclick="setFilterJenis('B3',this)">⚗️ B3</div>
+      </div>
+      <div class="filter-bar">
+        <input type="text" class="search-box" id="search-gudang" placeholder="Cari ruangan / petugas / ID..." oninput="resetPagGudang()" style="margin-left:0;width:100%;max-width:340px">
+        <button class="btn btn-secondary btn-sm" onclick="loadGudang()">↻ Refresh</button>
+      </div>
+      <div id="list-gudang"></div>
+      <div id="pag-gudang"></div>
     </div>
-
   </div>
 </div>
 
@@ -481,6 +470,10 @@ async function autoRefresh() {
       dataGudang = semua;
       dupSet = getDuplikatIdMutasi(dataGudang);
       renderGudang();
+      if (user.role === "kepala_gudang") {
+        const st = await api({ action:"getStats", role:user.role, nama:user.nama, ruangan:user.ruangan });
+        if (st.ok) renderStats(st);
+      } else { hitungStatLokal(dataGudang); }
       showToast("🔔 " + baru.length + " amprahan baru masuk!", "info");
     }
   } catch(e) { /* silent */ }
@@ -501,7 +494,11 @@ function stopAutoRefresh() {
 
 // ── API ───────────────────────────────────────
 async function api(body) {
-  const res = await fetch(API_URL, { method:"POST", body:JSON.stringify(body) });
+  const res = await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: { "Content-Type": "text/plain;charset=utf-8" }
+  });
   return res.json();
 }
 
@@ -535,7 +532,7 @@ function showErr(el,msg){ el.textContent=msg; el.style.display="block"; }
 
 function masukApp() {
   document.getElementById("halaman-login").style.display = "none";
-  document.getElementById("halaman-app").style.display   = "flex";
+  document.getElementById("halaman-app").style.display   = "block";
   const roleLabel = { peminta:"User Peminta", gudang_obat:"Gudang Obat", gudang_bhp:"Gudang BHP / Alkes", kepala_gudang:"Kepala Gudang" };
   document.getElementById("topbar-info").textContent = user.nama + " · " + user.ruangan + " · " + (roleLabel[user.role]||user.role);
   document.getElementById("f-ruangan").value = user.ruangan;
@@ -572,11 +569,11 @@ function renderTabBar() {
 }
 
 function switchTab(name) {
-  document.querySelectorAll("[data-tabpanel]").forEach(p => p.style.display="none");
+  document.querySelectorAll(".tab-panel").forEach(p => p.style.display="none");
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   const panel = document.getElementById("tab-"+name);
   const tabEl = document.getElementById("tabn-"+name);
-  if (panel) panel.style.display = "flex";
+  if (panel) panel.style.display = "block";
   if (tabEl) tabEl.classList.add("active");
   if (name === "status") loadAmprahan();
   if (name === "gudang") loadGudang();
@@ -648,7 +645,10 @@ async function loadGudang() {
   try {
     const isKepala = user.role === "kepala_gudang";
     if (isKepala) {
-      const resData = await api({ action:"getAmprahan", role:user.role, nama:user.nama, ruangan:user.ruangan });
+      const [resData, resStats] = await Promise.all([
+        api({ action:"getAmprahan", role:user.role, nama:user.nama, ruangan:user.ruangan }),
+        api({ action:"getStats",    role:user.role, nama:user.nama, ruangan:user.ruangan }),
+      ]);
       if (resData.ok) {
         dataGudang = resData.data;
         dupSet = getDuplikatIdMutasi(dataGudang);
@@ -656,6 +656,7 @@ async function loadGudang() {
         pagGudang = 1;
         renderGudang();
       }
+      if (resStats.ok) renderStats(resStats);
     } else {
       const resData = await api({ action:"getAmprahan", role:user.role, nama:user.nama, ruangan:user.ruangan });
       if (resData.ok) {
@@ -664,16 +665,18 @@ async function loadGudang() {
         if (idKnown.size === 0) dataGudang.forEach(d => idKnown.add(d.idTransaksi));
         pagGudang = 1;
         renderGudang();
+        hitungStatLokal(dataGudang);
       }
     }
   } catch(e) {
-    console.error("loadGudang error:", e);
     document.getElementById("list-gudang").innerHTML = `<div class="empty">Gagal terhubung ke server.</div>`;
   }
 }
 
+function renderStats(s) { renderStatGrid(s.total, s.belum, s.sudah, s.batal, "Semua Jenis"); }
+
 function hitungStatLokal(data) {
-  const jenisLabel = { "gudang_obat":"Obat", "gudang_bhp":"BMHP / Cairan / B3", "kepala_gudang":"Semua Jenis" };
+  const jenisLabel = { "gudang_obat":"Obat", "gudang_bhp":"BMHP / Cairan / B3" };
   const label = jenisLabel[user.role] || "";
   renderStatGrid(data.length,
     data.filter(d=>d.status==="Belum Dilayani").length,
@@ -712,7 +715,7 @@ function resetPagGudang() { pagGudang=1; renderGudang(); }
 function getDuplikatIdMutasi(data) {
   const counter = {};
   data.forEach(d => {
-    const id = String(d.noIdMutasi ?? "").trim();
+    const id = (d.noIdMutasi || "").trim();
     if (!id) return;
     counter[id] = (counter[id] || 0) + 1;
   });
@@ -721,22 +724,11 @@ function getDuplikatIdMutasi(data) {
 
 function renderGudang() {
   const q = (document.getElementById("search-gudang").value||"").toLowerCase();
-
-  // Data dasar untuk STATS: ikut filter Kategori & Jenis, TAPI TIDAK ikut filter Status
-  // (karena stats sendiri adalah breakdown per status) dan tidak ikut search box.
-  const dataUntukStats = dataGudang.filter(d => {
-    const mK = filterKategori==="semua" || (d.kategori||"").toLowerCase()===filterKategori.toLowerCase();
-    const mJ = filterJenis==="semua"    || (d.jenisAmprahan||"").toLowerCase()===filterJenis.toLowerCase();
-    return mK && mJ;
-  });
-  hitungStatLokal(dataUntukStats);
-
-  // Data untuk LIST: ikut semua filter (status, kategori, jenis, search)
   const data = dataGudang.filter(d => {
     const mS = filterGudang==="semua"   || d.status===filterGudang;
     const mK = filterKategori==="semua" || (d.kategori||"").toLowerCase()===filterKategori.toLowerCase();
     const mJ = filterJenis==="semua"    || (d.jenisAmprahan||"").toLowerCase()===filterJenis.toLowerCase();
-    const mQ = !q||(d.asalRuangan||"").toLowerCase().includes(q)||(d.namaPetugas||"").toLowerCase().includes(q)||(d.idTransaksi||"").toLowerCase().includes(q)||String(d.noIdMutasi??"").toLowerCase().includes(q);
+    const mQ = !q||(d.asalRuangan||"").toLowerCase().includes(q)||(d.namaPetugas||"").toLowerCase().includes(q)||(d.idTransaksi||"").toLowerCase().includes(q)||(d.noIdMutasi||"").toLowerCase().includes(q);
     return mS&&mK&&mJ&&mQ;
   });
   const el = document.getElementById("list-gudang");
@@ -793,7 +785,7 @@ function gotoPagGudang(p) { pagGudang = p; renderGudang(); }
 // ── RENDER ITEM ───────────────────────────────
 function ampItemHtml(d,isGudang) {
   const sc = d.status==="Sudah Dilayani"?"sudah":d.status==="Batal"?"batal":"belum";
-  const idMutasiHtml = dupSet.has(String(d.noIdMutasi??'').trim())
+  const idMutasiHtml = dupSet.has((d.noIdMutasi||'').trim())
     ? `<span class="amp-idmutasi-dup" title="ID Mutasi ini dipakai lebih dari satu kali">${d.noIdMutasi}</span>`
     : d.noIdMutasi;
   return `
