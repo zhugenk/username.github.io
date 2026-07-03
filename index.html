@@ -7,75 +7,34 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:Arial,sans-serif;font-size:14px;background:#f0f2f5;color:#333;min-height:100vh}
-
-  /* LOGIN */
   #halaman-login{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
   .login-card{background:#fff;border-radius:12px;padding:40px 32px;width:100%;max-width:400px;box-shadow:0 2px 16px rgba(0,0,0,0.10)}
   .login-card h1{font-size:20px;font-weight:700;color:#1a56db;margin-bottom:4px;text-align:center}
   .login-card p{font-size:13px;color:#666;text-align:center;margin-bottom:28px}
   .login-logo{text-align:center;margin-bottom:16px;font-size:40px}
+  #halaman-app{display:none;min-height:100vh}
 
-  /* APP */
-  #halaman-app{display:none}
+  /* ── STICKY HEADER ── */
+  .sticky-header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    box-shadow:0 2px 8px rgba(0,0,0,0.12);
+  }
   .topbar{background:#1a56db;color:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
   .topbar h2{font-size:15px;font-weight:600}
   .topbar-info{font-size:12px;opacity:0.85}
   .topbar-right{display:flex;align-items:center;gap:8px}
   .btn-logout{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px}
   .btn-logout:hover{background:rgba(255,255,255,0.35)}
-
-  /* NOTIF BELL */
-  .notif-bell{position:relative;cursor:pointer;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:16px;display:flex;align-items:center;gap:4px;transition:background 0.15s}
-  .notif-bell:hover{background:rgba(255,255,255,0.28)}
-  .notif-bell-label{font-size:11px;font-weight:600}
-  .notif-badge{position:absolute;top:-4px;right:-4px;background:#e02424;color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #1a56db;display:none}
-  .notif-badge.visible{display:flex}
-
-  /* NOTIF PANEL */
-  .notif-panel{position:fixed;top:56px;right:12px;width:320px;background:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.18);z-index:200;display:none;overflow:hidden;border:1px solid #e5e7eb}
-  .notif-panel.open{display:block}
-  .notif-panel-header{padding:12px 16px;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between;background:#f8f9fa}
-  .notif-panel-title{font-size:13px;font-weight:700;color:#1a56db}
-  .notif-panel-actions{display:flex;gap:6px}
-  .notif-link{font-size:11px;color:#1a56db;cursor:pointer;background:none;border:none;padding:2px 6px;border-radius:4px}
-  .notif-link:hover{background:#e8eeff}
-  .notif-list{max-height:380px;overflow-y:auto}
-  .notif-empty{padding:28px 16px;text-align:center;color:#aaa;font-size:13px}
-  .notif-item{padding:12px 16px;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:background 0.12s;display:flex;gap:10px;align-items:flex-start}
-  .notif-item:last-child{border-bottom:none}
-  .notif-item:hover{background:#f5f7ff}
-  .notif-item.unread{background:#f0f5ff}
-  .notif-item.unread:hover{background:#e8eeff}
-  .notif-icon{font-size:20px;flex-shrink:0;margin-top:1px}
-  .notif-body{flex:1;min-width:0}
-  .notif-msg{font-size:12px;color:#333;line-height:1.4;font-weight:500}
-  .notif-item.unread .notif-msg{font-weight:600}
-  .notif-time{font-size:11px;color:#999;margin-top:3px}
-  .notif-dot{width:8px;height:8px;border-radius:50%;background:#1a56db;flex-shrink:0;margin-top:5px}
-
-  /* NOTIF PERMISSION BANNER */
-  .notif-banner{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .notif-banner p{font-size:12px;color:#664d03;flex:1}
-  .notif-banner-btns{display:flex;gap:6px}
-
-  /* NOTIF STATUS INDICATOR */
-  .notif-status{display:flex;align-items:center;gap:5px;font-size:11px;padding:4px 8px;border-radius:6px}
-  .notif-status.aktif{background:#e3fcef;color:#057a55}
-  .notif-status.nonaktif{background:#fde8e8;color:#c81e1e}
-  .notif-status.pending{background:#fff3e0;color:#cc6600}
-  .notif-dot-small{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-  .notif-status.aktif .notif-dot-small{background:#057a55}
-  .notif-status.nonaktif .notif-dot-small{background:#e02424}
-  .notif-status.pending .notif-dot-small{background:#ff8800}
-
+  .btn-notif{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);color:#fff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;display:none}
+  .btn-notif.aktif{background:rgba(5,122,85,0.7);border-color:rgba(5,122,85,0.9)}
   .tab-bar{background:#fff;display:flex;border-bottom:1px solid #e0e0e0;overflow-x:auto}
   .tab{padding:12px 20px;cursor:pointer;font-size:13px;color:#666;border-bottom:3px solid transparent;white-space:nowrap;font-weight:500}
   .tab.active{color:#1a56db;border-bottom-color:#1a56db}
   .tab:hover:not(.active){background:#f5f7ff;color:#333}
 
   .content{padding:16px;max-width:900px;margin:0 auto}
-
-  /* FORM */
   .card{background:#fff;border-radius:10px;padding:20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.07)}
   .card h3{font-size:14px;font-weight:700;color:#1a56db;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #eee}
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -85,24 +44,16 @@
   input,select,textarea{padding:8px 10px;border:1px solid #d0d5dd;border-radius:6px;font-size:13px;color:#333;background:#fff;width:100%}
   input:focus,select:focus,textarea:focus{outline:none;border-color:#1a56db;box-shadow:0 0 0 2px rgba(26,86,219,0.1)}
   textarea{resize:vertical;min-height:70px}
-
-  /* BUTTONS */
   .btn{padding:9px 18px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.15s}
   .btn-primary{background:#1a56db;color:#fff}
   .btn-primary:hover{background:#1447c0}
   .btn-primary:disabled{background:#93b4f0;cursor:not-allowed}
   .btn-secondary{background:#f3f4f6;color:#374151;border:1px solid #d1d5db}
   .btn-secondary:hover{background:#e5e7eb}
-  .btn-success{background:#057a55;color:#fff}
-  .btn-success:hover{background:#046c4e}
-  .btn-danger{background:#e02424;color:#fff}
-  .btn-danger:hover{background:#c81e1e}
   .btn-warning{background:#ff8800;color:#fff}
   .btn-warning:hover{background:#e07700}
   .btn-sm{padding:5px 10px;font-size:12px}
   .btn-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
-
-  /* STATS */
   .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
   .stat{background:#fff;border-radius:10px;padding:16px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.07)}
   .stat-num{font-size:28px;font-weight:700;line-height:1}
@@ -111,21 +62,14 @@
   .stat.belum .stat-num{color:#ff8800}
   .stat.sudah .stat-num{color:#057a55}
   .stat.batal .stat-num{color:#e02424}
-
-  /* BADGES */
   .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
   .badge-belum{background:#fff3e0;color:#cc6600}
   .badge-sudah{background:#e3fcef;color:#057a55}
   .badge-batal{background:#fde8e8;color:#c81e1e}
-
-  /* FILTER */
   .filter-bar{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
-  .filter-bar:last-of-type{margin-bottom:12px}
   .chip{padding:5px 13px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid #d1d5db;background:#fff;color:#555;font-weight:500}
   .chip.active{background:#1a56db;color:#fff;border-color:#1a56db}
   .search-box{padding:6px 10px;border:1px solid #d0d5dd;border-radius:6px;font-size:12px;width:200px}
-
-  /* LIST AMPRAHAN */
   .amp-item{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,0.07);border-left:4px solid #d1d5db}
   .amp-item.belum{border-left-color:#ff8800}
   .amp-item.sudah{border-left-color:#057a55}
@@ -134,10 +78,8 @@
   .amp-id{font-weight:700;font-size:13px;color:#1a56db}
   .amp-meta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:6px}
   .amp-meta span{font-size:12px;color:#555}
-  .amp-keterangan{font-size:12px;color:#777;margin-top:4px}
+  .amp-keterangan{font-size:12px;color:#555;margin-top:6px;padding:7px 10px;background:#f0f5ff;border-radius:6px;border-left:3px solid #1a56db}
   .amp-catatan{background:#f8f9fa;border-radius:6px;padding:8px 10px;font-size:12px;color:#555;margin-top:8px;border-left:3px solid #d1d5db}
-
-  /* MODAL */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;align-items:center;justify-content:center;padding:20px}
   .modal-overlay.open{display:flex}
   .modal{background:#fff;border-radius:12px;padding:24px;width:100%;max-width:420px;box-shadow:0 8px 32px rgba(0,0,0,0.18)}
@@ -146,54 +88,72 @@
   .modal-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid #eee}
   .modal-row:last-child{border-bottom:none}
   .modal-row span:first-child{color:#666;font-size:12px}
-
-  /* TOAST */
   .toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:600;color:#fff;z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;max-width:320px}
   .toast.show{opacity:1}
   .toast.success{background:#057a55}
   .toast.error{background:#e02424}
   .toast.info{background:#1a56db}
-
-  /* LOADING */
   .loading{text-align:center;padding:40px;color:#999;font-size:13px}
   .spinner{display:inline-block;width:24px;height:24px;border:3px solid #e0e0e0;border-top-color:#1a56db;border-radius:50%;animation:spin 0.7s linear infinite;margin-bottom:8px}
   @keyframes spin{to{transform:rotate(360deg)}}
   .empty{text-align:center;padding:40px;color:#aaa;font-size:13px}
 
-  /* PULSE ANIMATION FOR NEW NOTIF */
-  @keyframes pulse-ring{
-    0%{transform:scale(1);opacity:0.8}
-    70%{transform:scale(1.4);opacity:0}
-    100%{transform:scale(1.4);opacity:0}
-  }
-  .notif-badge.pulse::after{
-    content:'';
-    position:absolute;inset:-3px;
-    border-radius:50%;
-    background:#e02424;
-    animation:pulse-ring 1.2s ease-out infinite;
-    z-index:-1
-  }
+  /* Banner notif */
+  .notif-banner{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#795548;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .notif-banner button{background:#ff8800;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;white-space:nowrap}
 
-  /* RESPONSIVE */
+  /* ── PAGINATION ── */
+  .pagination{
+    display:flex;align-items:center;justify-content:center;
+    gap:6px;margin-top:16px;margin-bottom:8px;flex-wrap:wrap;
+  }
+  .pag-btn{
+    padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;
+    cursor:pointer;border:1px solid #d1d5db;background:#fff;color:#374151;
+    transition:all 0.12s;min-width:34px;text-align:center;
+  }
+  .pag-btn:hover:not(:disabled):not(.active){background:#f0f2f5}
+  .pag-btn.active{background:#1a56db;color:#fff;border-color:#1a56db}
+  .pag-btn:disabled{opacity:0.4;cursor:not-allowed}
+  .pag-info{font-size:12px;color:#666;padding:0 4px}
+
   @media(max-width:600px){
     .form-grid{grid-template-columns:1fr}
     .stat-grid{grid-template-columns:repeat(2,1fr)}
     .search-box{width:100%}
-    .filter-bar{flex-direction:row;align-items:center;flex-wrap:wrap}
-    .notif-panel{width:calc(100vw - 24px);right:12px}
+    .topbar-right{gap:4px}
+  }
+
+  /* DUPLICATE ID MUTASI HIGHLIGHT */
+  .amp-idmutasi-dup{
+    background:#fde8e8;color:#c81e1e;font-weight:700;
+    border-radius:4px;padding:2px 7px;
+    border:1px solid #f5b8b8;
+    position:relative;cursor:help;display:inline-block;
+  }
+  .amp-idmutasi-dup::after{
+    content:'⚠ ID Mutasi duplikat!';
+    position:absolute;bottom:calc(100% + 5px);left:50%;
+    transform:translateX(-50%);
+    background:#c81e1e;color:#fff;font-size:10px;font-weight:600;
+    padding:3px 8px;border-radius:4px;white-space:nowrap;
+    opacity:0;pointer-events:none;transition:opacity 0.15s;z-index:50;
+  }
+  .amp-idmutasi-dup:hover::after{opacity:1}
+  .dup-warning-bar{
+    background:#fde8e8;border:1px solid #f5b8b8;border-radius:8px;
+    padding:8px 14px;margin-bottom:10px;font-size:12px;
+    color:#c81e1e;display:flex;align-items:center;gap:8px;font-weight:600;
   }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ HALAMAN LOGIN ═══════════════ -->
 <div id="halaman-login">
   <div class="login-card">
     <div class="login-logo">💊</div>
     <h1>Sistem Amprahan Farmasi</h1>
     <p>Masuk dengan nama dan ruangan Anda</p>
-
     <div class="form-group" style="margin-bottom:12px">
       <label>Nama Petugas</label>
       <input type="text" id="login-nama" placeholder="Tulis nama lengkap..." autocomplete="off">
@@ -214,9 +174,9 @@
         <option>DEPO FARMASI RAWAT INAP</option>
         <option>DEPO FARMASI TERPADU</option>
         <option>GENERAL CHECK UP</option>
+        <option>GUDANG FARMASI</option>
         <option>GUDANG FARMASI OBAT</option>
         <option>GUDANG FARMASI BHP</option>
-        <option>GUDANG FARMASI</option>
         <option>IPS RS</option>
         <option>KAMAR JENAZAH</option>
         <option>KESEHATAN LINGKUNGAN</option>
@@ -262,64 +222,31 @@
         <option>VIP DAN VVIP ENGGANG DAN PUNAI</option>
       </select>
     </div>
-    <button class="btn btn-primary" style="width:100%;padding:11px" onclick="doLogin()" id="btn-login">
-      Masuk
-    </button>
+    <button class="btn btn-primary" style="width:100%;padding:11px" onclick="doLogin()" id="btn-login">Masuk</button>
     <div id="login-error" style="margin-top:12px;color:#e02424;font-size:12px;text-align:center;display:none"></div>
   </div>
 </div>
 
-<!-- ═══════════════ HALAMAN APP ═══════════════ -->
 <div id="halaman-app">
-  <div class="topbar">
-    <div>
-      <h2>💊 Amprahan Farmasi</h2>
-      <div class="topbar-info" id="topbar-info"></div>
-    </div>
-    <div class="topbar-right">
-      <!-- NOTIF BELL -->
-      <button class="notif-bell" onclick="toggleNotifPanel()" id="notif-bell-btn" title="Notifikasi">
-        🔔
-        <span class="notif-bell-label" id="notif-bell-label">Notif</span>
-        <span class="notif-badge" id="notif-badge">0</span>
-      </button>
-      <button class="btn-logout" onclick="doLogout()">Keluar</button>
-    </div>
-  </div>
-
-  <!-- NOTIFIKASI PANEL (DROPDOWN) -->
-  <div class="notif-panel" id="notif-panel">
-    <div class="notif-panel-header">
-      <span class="notif-panel-title">🔔 Notifikasi</span>
-      <div class="notif-panel-actions">
-        <span id="notif-status-indicator"></span>
-        <button class="notif-link" onclick="tandaiSemuaTerbaca()">Tandai semua terbaca</button>
-        <button class="notif-link" onclick="hapusSemuaNotif()">Hapus semua</button>
+  <!-- ── STICKY HEADER ── -->
+  <div class="sticky-header">
+    <div class="topbar">
+      <div>
+        <h2>💊 Amprahan Farmasi</h2>
+        <div class="topbar-info" id="topbar-info"></div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-notif" id="btn-notif" onclick="mintaIzinNotif()">🔔 Aktifkan Notifikasi</button>
+        <button class="btn-logout" onclick="doLogout()">Keluar</button>
       </div>
     </div>
-    <div class="notif-list" id="notif-list">
-      <div class="notif-empty">Belum ada notifikasi</div>
-    </div>
-    <div style="padding:10px 16px;border-top:1px solid #eee;background:#f8f9fa">
-      <div id="notif-permission-info" style="font-size:11px;color:#666;text-align:center"></div>
-    </div>
+    <div class="tab-bar" id="tab-bar"></div>
   </div>
-
-  <div class="tab-bar" id="tab-bar"></div>
 
   <div class="content">
-    <!-- TAB: FORM AMPRAHAN -->
-    <div id="tab-form" class="tab-panel" style="display:none">
-      <!-- NOTIF PERMISSION BANNER (jika belum izinkan) -->
-      <div class="notif-banner" id="notif-banner" style="display:none">
-        <span style="font-size:20px">🔔</span>
-        <p>Aktifkan notifikasi browser agar Anda mendapat pemberitahuan saat status amprahan berubah, meski tab ini tidak aktif.</p>
-        <div class="notif-banner-btns">
-          <button class="btn btn-primary btn-sm" onclick="mintaIzinNotif()">Aktifkan</button>
-          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('notif-banner').style.display='none'">Nanti</button>
-        </div>
-      </div>
 
+    <!-- TAB FORM -->
+    <div id="tab-form" class="tab-panel" style="display:none">
       <div class="card">
         <h3>📋 Form Amprahan Baru</h3>
         <div class="form-grid">
@@ -370,18 +297,8 @@
       </div>
     </div>
 
-    <!-- TAB: STATUS SAYA -->
+    <!-- TAB STATUS -->
     <div id="tab-status" class="tab-panel" style="display:none">
-      <!-- NOTIF PERMISSION BANNER -->
-      <div class="notif-banner" id="notif-banner-status" style="display:none">
-        <span style="font-size:20px">🔔</span>
-        <p>Aktifkan notifikasi browser agar Anda mendapat pemberitahuan saat status amprahan diperbarui gudang.</p>
-        <div class="notif-banner-btns">
-          <button class="btn btn-primary btn-sm" onclick="mintaIzinNotif()">Aktifkan</button>
-          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('notif-banner-status').style.display='none'">Nanti</button>
-        </div>
-      </div>
-
       <div class="filter-bar">
         <div class="chip active" onclick="setFilterStatus('semua',this)">Semua</div>
         <div class="chip" onclick="setFilterStatus('Belum Dilayani',this)">Belum Dilayani</div>
@@ -390,20 +307,15 @@
         <button class="btn btn-secondary btn-sm" style="margin-left:auto" onclick="loadAmprahan()">↻ Refresh</button>
       </div>
       <div id="list-status"></div>
+      <div id="pag-status"></div>
     </div>
 
-    <!-- TAB: DASHBOARD GUDANG -->
+    <!-- TAB GUDANG -->
     <div id="tab-gudang" class="tab-panel" style="display:none">
-      <!-- NOTIF PERMISSION BANNER -->
-      <div class="notif-banner" id="notif-banner-gudang" style="display:none">
-        <span style="font-size:20px">🔔</span>
-        <p>Aktifkan notifikasi browser agar Anda mendapat pemberitahuan saat ada amprahan baru masuk.</p>
-        <div class="notif-banner-btns">
-          <button class="btn btn-primary btn-sm" onclick="mintaIzinNotif()">Aktifkan</button>
-          <button class="btn btn-secondary btn-sm" onclick="document.getElementById('notif-banner-gudang').style.display='none'">Nanti</button>
-        </div>
+      <div class="notif-banner" id="notif-banner" style="display:none">
+        🔔 Aktifkan notifikasi agar muncul pemberitahuan otomatis saat ada amprahan baru masuk.
+        <button onclick="mintaIzinNotif()">Aktifkan</button>
       </div>
-
       <div class="stat-grid" id="stat-grid">
         <div class="stat total"><div class="stat-num">-</div><div class="stat-label">Total</div></div>
         <div class="stat belum"><div class="stat-num">-</div><div class="stat-label">Belum Dilayani</div></div>
@@ -417,14 +329,14 @@
         <div class="chip" onclick="setFilterGudang('Batal',this)">Batal</div>
       </div>
       <div class="filter-bar" id="filter-bar-kategori">
-        <span style="font-size:11px;font-weight:600;color:#888;white-space:nowrap;align-self:center">Kategori:</span>
+        <span style="font-size:11px;font-weight:600;color:#888;white-space:nowrap">Kategori:</span>
         <div class="chip active" onclick="setFilterKategori('semua',this)">Semua</div>
         <div class="chip" onclick="setFilterKategori('Cito',this)">⚡ Cito</div>
         <div class="chip" onclick="setFilterKategori('Rutin',this)">🔁 Rutin</div>
         <div class="chip" onclick="setFilterKategori('Elektif',this)">📋 Elektif</div>
       </div>
       <div class="filter-bar" id="filter-bar-jenis">
-        <span style="font-size:11px;font-weight:600;color:#888;white-space:nowrap;align-self:center">Jenis:</span>
+        <span style="font-size:11px;font-weight:600;color:#888;white-space:nowrap">Jenis:</span>
         <div class="chip active" onclick="setFilterJenis('semua',this)">Semua</div>
         <div class="chip" onclick="setFilterJenis('Obat',this)">💊 Obat</div>
         <div class="chip" onclick="setFilterJenis('BMHP',this)">🩺 BMHP</div>
@@ -432,15 +344,16 @@
         <div class="chip" onclick="setFilterJenis('B3',this)">⚗️ B3</div>
       </div>
       <div class="filter-bar">
-        <input type="text" class="search-box" id="search-gudang" placeholder="Cari ruangan / petugas / ID..." oninput="renderGudang()" style="margin-left:0;width:100%;max-width:340px">
+        <input type="text" class="search-box" id="search-gudang" placeholder="Cari ruangan / petugas / ID..." oninput="resetPagGudang()" style="margin-left:0;width:100%;max-width:340px">
         <button class="btn btn-secondary btn-sm" onclick="loadGudang()">↻ Refresh</button>
       </div>
       <div id="list-gudang"></div>
+      <div id="pag-gudang"></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════ MODAL UPDATE STATUS ═══════════════ -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal-update">
   <div class="modal">
     <h3>✏️ Update Status Amprahan</h3>
@@ -467,70 +380,136 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════════
-//  KONFIGURASI
-// ══════════════════════════════════════════════
 const API_URL = "https://script.google.com/macros/s/AKfycbx1ZAs4i6tQKH7a9eE9_2tIZaJDmwd23nd0USBZ9MtqWbEX_yLLAzxaFdj0nx6yftH8/exec";
+const PAGE_SIZE = 20;
 
 const JENIS_OBAT_LIST = ["obat"];
-const JENIS_BHP_LIST  = ["bmhp", "cairan", "b3"];
+const JENIS_BHP_LIST  = ["bmhp","cairan","b3"];
 
-// Interval polling (ms) — berapa lama sekali cek data baru di background
-const POLL_INTERVAL_MS = 60_000; // 60 detik
+let user           = null;
+let allAmprahan    = [];
+let dataGudang     = [];
+let filterStatus   = "semua";
+let filterGudang   = "semua";
+let filterKategori = "semua";
+let filterJenis    = "semua";
+let editId         = null;
+let dupSet         = new Set();
 
-// ══════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════
-let user            = null;
-let allAmprahan     = [];
-let filterStatus    = "semua";
-let filterGudang    = "semua";
-let filterKategori  = "semua";
-let filterJenis     = "semua";
-let editId          = null;
-let dataGudang      = [];
+// Halaman aktif per tab
+let pagStatus = 1;
+let pagGudang = 1;
 
-// ── NOTIFIKASI STATE ──
-let notifList       = [];   // { id, msg, icon, time, read, type }
-let notifUnread     = 0;
-let pollTimer       = null;
-// Snapshot ID transaksi terakhir yang kita tahu — untuk deteksi data baru
-let snapshotIds     = new Set();
-// Status terakhir tiap transaksi — untuk deteksi perubahan status
-let snapshotStatus  = {};   // { idTransaksi: status }
+// ── NOTIFIKASI ────────────────────────────────
+let notifInterval = null;
+let idKnown       = new Set();
+let notifAktif    = false;
 
-// ══════════════════════════════════════════════
-//  API HELPER
-// ══════════════════════════════════════════════
+function cekStatusNotif() {
+  if (!("Notification" in window)) return;
+  if (Notification.permission === "granted") {
+    notifAktif = true;
+    setTombolNotifAktif();
+  } else if (Notification.permission === "default") {
+    document.getElementById("btn-notif").style.display = "inline-block";
+    document.getElementById("notif-banner").style.display = "flex";
+  }
+}
+
+function setTombolNotifAktif() {
+  const btn = document.getElementById("btn-notif");
+  btn.style.display = "inline-block";
+  btn.textContent   = "🔔 Notifikasi Aktif";
+  btn.classList.add("aktif");
+  btn.onclick       = null;
+  document.getElementById("notif-banner").style.display = "none";
+}
+
+function mintaIzinNotif() {
+  if (!("Notification" in window)) { showToast("Browser ini tidak mendukung notifikasi.", "error"); return; }
+  Notification.requestPermission().then(perm => {
+    if (perm === "granted") {
+      notifAktif = true;
+      setTombolNotifAktif();
+      showToast("✅ Notifikasi berhasil diaktifkan!", "success");
+      new Notification("💊 Amprahan Farmasi", {
+        body: "Notifikasi aktif! Anda akan diberitahu saat ada amprahan baru.",
+        icon: "https://cdn-icons-png.flaticon.com/512/822/822115.png"
+      });
+    } else {
+      showToast("Izin notifikasi ditolak. Cek pengaturan browser.", "error");
+      document.getElementById("notif-banner").style.display = "none";
+    }
+  });
+}
+
+function kirimNotifBrowser(judul, pesan) {
+  if (!notifAktif || Notification.permission !== "granted") return;
+  const n = new Notification(judul, {
+    body: pesan,
+    icon: "https://cdn-icons-png.flaticon.com/512/822/822115.png",
+  });
+  n.onclick = () => { window.focus(); n.close(); };
+}
+
+async function autoRefresh() {
+  if (!user) return;
+  const isGudang = ["gudang_obat","gudang_bhp","kepala_gudang"].includes(user.role);
+  if (!isGudang) return;
+  try {
+    const res = await api({ action:"getAmprahan", role:user.role, nama:user.nama, ruangan:user.ruangan });
+    if (!res.ok) return;
+    const semua = res.data.filter(d => isJenisSesuaiRole(d.jenisAmprahan, user.role));
+    if (idKnown.size === 0) { semua.forEach(d => idKnown.add(d.idTransaksi)); return; }
+    const baru = semua.filter(d => !idKnown.has(d.idTransaksi));
+    if (baru.length > 0) {
+      baru.forEach(d => {
+        idKnown.add(d.idTransaksi);
+        kirimNotifBrowser("🔔 Amprahan Baru Masuk!", d.asalRuangan + " · " + d.jenisAmprahan + " · " + d.kategori + " · " + d.namaPetugas);
+      });
+      dataGudang = semua;
+      dupSet = getDuplikatIdMutasi(dataGudang);
+      renderGudang();
+      showToast("🔔 " + baru.length + " amprahan baru masuk!", "info");
+    }
+  } catch(e) { /* silent */ }
+}
+
+function mulaiAutoRefresh() {
+  if (notifInterval) clearInterval(notifInterval);
+  idKnown.clear();
+  notifInterval = setInterval(autoRefresh, 30000);
+  autoRefresh();
+}
+
+function stopAutoRefresh() {
+  if (notifInterval) clearInterval(notifInterval);
+  notifInterval = null;
+  idKnown.clear();
+}
+
+// ── API ───────────────────────────────────────
 async function api(body) {
-  const res = await fetch(API_URL, { method:"POST", body: JSON.stringify(body) });
+  const res = await fetch(API_URL, { method:"POST", body:JSON.stringify(body) });
   return res.json();
 }
 
-// ══════════════════════════════════════════════
-//  FILTER HELPER
-// ══════════════════════════════════════════════
-function isJenisSesuaiRole(jenisAmprahan, role) {
-  const jenis = (jenisAmprahan || "").trim().toLowerCase();
-  if (role === "gudang_obat") return JENIS_OBAT_LIST.includes(jenis);
-  if (role === "gudang_bhp")  return JENIS_BHP_LIST.includes(jenis);
+function isJenisSesuaiRole(jenis, role) {
+  const j = (jenis||"").trim().toLowerCase();
+  if (role === "gudang_obat") return JENIS_OBAT_LIST.includes(j);
+  if (role === "gudang_bhp")  return JENIS_BHP_LIST.includes(j);
   return true;
 }
 
-// ══════════════════════════════════════════════
-//  LOGIN / LOGOUT
-// ══════════════════════════════════════════════
+// ── LOGIN ─────────────────────────────────────
 async function doLogin() {
   const nama    = document.getElementById("login-nama").value.trim();
   const ruangan = document.getElementById("login-ruangan").value.trim();
   const errEl   = document.getElementById("login-error");
   const btn     = document.getElementById("btn-login");
-
   if (!nama || !ruangan) { showErr(errEl,"Nama dan ruangan wajib dipilih/diisi."); return; }
-
   btn.disabled = true; btn.textContent = "Memeriksa...";
   errEl.style.display = "none";
-
   try {
     const res = await api({ action:"login", nama, ruangan });
     if (res.ok) {
@@ -538,7 +517,6 @@ async function doLogin() {
       masukApp();
     } else { showErr(errEl, res.msg); }
   } catch(e) { showErr(errEl,"Gagal terhubung ke server. Periksa koneksi internet."); }
-
   btn.disabled = false; btn.textContent = "Masuk";
 }
 
@@ -547,587 +525,328 @@ function showErr(el,msg){ el.textContent=msg; el.style.display="block"; }
 function masukApp() {
   document.getElementById("halaman-login").style.display = "none";
   document.getElementById("halaman-app").style.display   = "block";
-
-  const roleLabel = {
-    "peminta":"User Peminta","gudang_obat":"Gudang Obat",
-    "gudang_bhp":"Gudang BHP / Alkes","kepala_gudang":"Kepala Gudang",
-  };
-  document.getElementById("topbar-info").textContent =
-    user.nama + " · " + user.ruangan + " · " + (roleLabel[user.role]||user.role);
-
+  const roleLabel = { peminta:"User Peminta", gudang_obat:"Gudang Obat", gudang_bhp:"Gudang BHP / Alkes", kepala_gudang:"Kepala Gudang" };
+  document.getElementById("topbar-info").textContent = user.nama + " · " + user.ruangan + " · " + (roleLabel[user.role]||user.role);
   document.getElementById("f-ruangan").value = user.ruangan;
   document.getElementById("f-petugas").value = user.nama;
   document.getElementById("f-tanggal").value = hariIni();
-
-  // Muat notifikasi dari localStorage
-  muatNotifDariStorage();
-
-  // Cek & setup push notification
-  setupNotifikasi();
-
   renderTabBar();
-  const isGudangRole = ["gudang_obat","gudang_bhp","kepala_gudang"].includes(user.role);
-  switchTab(isGudangRole ? "gudang" : "form");
-
-  // Mulai polling background
-  mulaiPolling();
+  const isGudang = ["gudang_obat","gudang_bhp","kepala_gudang"].includes(user.role);
+  if (isGudang) { cekStatusNotif(); mulaiAutoRefresh(); }
+  switchTab(isGudang ? "gudang" : "form");
 }
 
 function doLogout() {
-  hentiPolling();
+  stopAutoRefresh();
   user = null; allAmprahan = []; dataGudang = [];
-  snapshotIds.clear(); snapshotStatus = {};
   document.getElementById("halaman-login").style.display = "flex";
   document.getElementById("halaman-app").style.display   = "none";
-  document.getElementById("login-nama").value    = "";
-  document.getElementById("login-ruangan").value = "";
+  document.getElementById("login-nama").value = "";
   document.getElementById("login-ruangan").selectedIndex = 0;
   document.getElementById("login-error").style.display = "none";
-  document.getElementById("notif-panel").classList.remove("open");
+  document.getElementById("btn-notif").style.display = "none";
+  document.getElementById("btn-notif").classList.remove("aktif");
+  notifAktif = false;
 }
 
-// ══════════════════════════════════════════════
-//  TAB
-// ══════════════════════════════════════════════
+// ── TAB ───────────────────────────────────────
 function renderTabBar() {
-  const isGudangRole = ["gudang_obat","gudang_bhp","kepala_gudang"].includes(user.role);
-  const tabs = isGudangRole
+  const isGudang = ["gudang_obat","gudang_bhp","kepala_gudang"].includes(user.role);
+  const tabs = isGudang
     ? [["gudang","📊 Dashboard Gudang"],["form","📋 Form Amprahan"]]
     : [["form","📋 Form Amprahan"],["status","📌 Status Saya"]];
   document.getElementById("tab-bar").innerHTML = tabs
-    .map(([id,label])=>`<div class="tab" id="tabn-${id}" onclick="switchTab('${id}')">${label}</div>`)
+    .map(([id,label]) => `<div class="tab" id="tabn-${id}" onclick="switchTab('${id}')">${label}</div>`)
     .join("");
 }
 
 function switchTab(name) {
-  document.querySelectorAll(".tab-panel").forEach(p=>p.style.display="none");
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  const panel=document.getElementById("tab-"+name);
-  const tabEl=document.getElementById("tabn-"+name);
-  if(panel) panel.style.display="block";
-  if(tabEl) tabEl.classList.add("active");
-  if(name==="status") loadAmprahan();
-  if(name==="gudang") loadGudang();
+  document.querySelectorAll(".tab-panel").forEach(p => p.style.display="none");
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  const panel = document.getElementById("tab-"+name);
+  const tabEl = document.getElementById("tabn-"+name);
+  if (panel) panel.style.display = "block";
+  if (tabEl) tabEl.classList.add("active");
+  if (name === "status") loadAmprahan();
+  if (name === "gudang") loadGudang();
 }
 
-// ══════════════════════════════════════════════
-//  FORM AMPRAHAN
-// ══════════════════════════════════════════════
+// ── FORM ──────────────────────────────────────
 async function kirimAmprahan() {
   const idmutasi = document.getElementById("f-idmutasi").value.trim();
   const jenis    = document.getElementById("f-jenis").value;
   const kategori = document.getElementById("f-kategori").value;
   const tanggal  = document.getElementById("f-tanggal").value;
   const ket      = document.getElementById("f-keterangan").value.trim();
-
-  if(!idmutasi||!jenis||!kategori||!tanggal){
-    showToast("Lengkapi semua field yang wajib diisi.","error"); return;
-  }
-
-  const btn=document.getElementById("btn-kirim");
+  if (!idmutasi||!jenis||!kategori||!tanggal) { showToast("Lengkapi semua field yang wajib diisi.","error"); return; }
+  const btn = document.getElementById("btn-kirim");
   btn.disabled=true; btn.textContent="Mengirim...";
-
   try {
-    const res = await api({
-      action:"kirimAmprahan", asalRuangan:user.ruangan, namaPetugas:user.nama,
-      tglAmprahan:tanggal, noIdMutasi:idmutasi, jenisAmprahan:jenis,
-      kategori:kategori, keterangan:ket,
-    });
-    if(res.ok){
-      showToast("✅ Amprahan berhasil dikirim! ID: "+res.idTransaksi,"success");
-      // Notif in-app konfirmasi kirim
-      tambahNotif({
-        msg: `✅ Amprahan ${res.idTransaksi} berhasil dikirim (${jenis} · ${kategori})`,
-        icon: "📤", type: "kirim"
-      });
-      resetForm();
-    } else { showToast("Gagal: "+res.msg,"error"); }
-  } catch(e){ showToast("Gagal terhubung ke server.","error"); }
-
+    const res = await api({ action:"kirimAmprahan", asalRuangan:user.ruangan, namaPetugas:user.nama, tglAmprahan:tanggal, noIdMutasi:idmutasi, jenisAmprahan:jenis, kategori, keterangan:ket });
+    if (res.ok) { showToast("✅ Amprahan berhasil dikirim! ID: "+res.idTransaksi,"success"); resetForm(); }
+    else showToast("Gagal: "+res.msg,"error");
+  } catch(e) { showToast("Gagal terhubung ke server.","error"); }
   btn.disabled=false; btn.textContent="Kirim Amprahan";
 }
 
 function resetForm() {
-  document.getElementById("f-idmutasi").value   = "";
-  document.getElementById("f-jenis").value      = "";
-  document.getElementById("f-kategori").value   = "";
-  document.getElementById("f-keterangan").value = "";
-  document.getElementById("f-tanggal").value    = hariIni();
+  document.getElementById("f-idmutasi").value="";
+  document.getElementById("f-jenis").value="";
+  document.getElementById("f-kategori").value="";
+  document.getElementById("f-keterangan").value="";
+  document.getElementById("f-tanggal").value=hariIni();
 }
 
-// ══════════════════════════════════════════════
-//  STATUS SAYA (peminta)
-// ══════════════════════════════════════════════
+// ── STATUS SAYA ───────────────────────────────
 async function loadAmprahan() {
-  const el=document.getElementById("list-status");
-  el.innerHTML=loadingHtml();
+  const el = document.getElementById("list-status");
+  el.innerHTML = loadingHtml();
+  document.getElementById("pag-status").innerHTML="";
   try {
     const res = await api({ action:"getAmprahan", role:user.role, nama:user.nama, ruangan:user.ruangan });
-    if(res.ok){ allAmprahan=res.data; renderStatus(); }
-    else el.innerHTML=`<div class="empty">Gagal memuat data: ${res.msg}</div>`;
-  } catch(e){ el.innerHTML=`<div class="empty">Gagal terhubung ke server.</div>`; }
+    if (res.ok) { allAmprahan=res.data; pagStatus=1; renderStatus(); }
+    else el.innerHTML = `<div class="empty">Gagal memuat data: ${res.msg}</div>`;
+  } catch(e) { el.innerHTML=`<div class="empty">Gagal terhubung ke server.</div>`; }
 }
 
-function setFilterStatus(f,el){ filterStatus=f; document.querySelectorAll("#tab-status .chip").forEach(c=>c.classList.remove("active")); el.classList.add("active"); renderStatus(); }
+function setFilterStatus(f,el) {
+  filterStatus=f; pagStatus=1;
+  document.querySelectorAll("#tab-status .chip").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active"); renderStatus();
+}
 
 function renderStatus() {
-  const data=allAmprahan.filter(d=>filterStatus==="semua"||d.status===filterStatus);
-  const el=document.getElementById("list-status");
-  if(!data.length){el.innerHTML=`<div class="empty">Tidak ada amprahan ditemukan.</div>`;return;}
-  el.innerHTML=data.map(d=>ampItemHtml(d,false)).join("");
+  const data = allAmprahan.filter(d => filterStatus==="semua"||d.status===filterStatus);
+  const el   = document.getElementById("list-status");
+  if (!data.length) {
+    el.innerHTML=`<div class="empty">Tidak ada amprahan ditemukan.</div>`;
+    document.getElementById("pag-status").innerHTML="";
+    return;
+  }
+  const totalHal = Math.ceil(data.length / PAGE_SIZE);
+  if (pagStatus > totalHal) pagStatus = totalHal;
+  const slice = data.slice((pagStatus-1)*PAGE_SIZE, pagStatus*PAGE_SIZE);
+  el.innerHTML = slice.map(d=>ampItemHtml(d,false)).join("");
+  renderPagination("pag-status", pagStatus, totalHal, data.length, "gotoPagStatus");
 }
 
-// ══════════════════════════════════════════════
-//  DASHBOARD GUDANG
-// ══════════════════════════════════════════════
+// ── DASHBOARD GUDANG ──────────────────────────
 async function loadGudang() {
-  document.getElementById("list-gudang").innerHTML=loadingHtml();
+  document.getElementById("list-gudang").innerHTML = loadingHtml();
+  document.getElementById("pag-gudang").innerHTML="";
   try {
-    const [resData,resStats] = await Promise.all([
-      api({ action:"getAmprahan", role:user.role, nama:user.nama, ruangan:user.ruangan }),
-      api({ action:"getStats",    role:user.role, nama:user.nama, ruangan:user.ruangan }),
-    ]);
-    if(resData.ok){
-      dataGudang=resData.data.filter(d=>isJenisSesuaiRole(d.jenisAmprahan,user.role));
-      renderGudang();
+    const isKepala = user.role === "kepala_gudang";
+    if (isKepala) {
+      const resData = await api({ action:"getAmprahan", role:user.role, nama:user.nama, ruangan:user.ruangan });
+      if (resData.ok) {
+        dataGudang = resData.data;
+        dupSet = getDuplikatIdMutasi(dataGudang);
+        if (idKnown.size === 0) dataGudang.forEach(d => idKnown.add(d.idTransaksi));
+        pagGudang = 1;
+        renderGudang();
+      }
+    } else {
+      const resData = await api({ action:"getAmprahan", role:user.role, nama:user.nama, ruangan:user.ruangan });
+      if (resData.ok) {
+        dataGudang = resData.data.filter(d => isJenisSesuaiRole(d.jenisAmprahan, user.role));
+        dupSet = getDuplikatIdMutasi(dataGudang);
+        if (idKnown.size === 0) dataGudang.forEach(d => idKnown.add(d.idTransaksi));
+        pagGudang = 1;
+        renderGudang();
+      }
     }
-    if(resStats.ok) renderStats(resStats);
-  } catch(e){ document.getElementById("list-gudang").innerHTML=`<div class="empty">Gagal terhubung ke server.</div>`; }
+  } catch(e) {
+    console.error("loadGudang error:", e);
+    document.getElementById("list-gudang").innerHTML = `<div class="empty">Gagal terhubung ke server.</div>`;
+  }
 }
 
-function renderStats(s) {
-  document.getElementById("stat-grid").innerHTML=`
-    <div class="stat total"><div class="stat-num">${s.total}</div><div class="stat-label">Total</div></div>
-    <div class="stat belum"><div class="stat-num">${s.belum}</div><div class="stat-label">Belum Dilayani</div></div>
-    <div class="stat sudah"><div class="stat-num">${s.sudah}</div><div class="stat-label">Sudah Dilayani</div></div>
-    <div class="stat batal"><div class="stat-num">${s.batal}</div><div class="stat-label">Batal</div></div>`;
+function hitungStatLokal(data) {
+  const jenisLabel = { "gudang_obat":"Obat", "gudang_bhp":"BMHP / Cairan / B3", "kepala_gudang":"Semua Jenis" };
+  const label = jenisLabel[user.role] || "";
+  renderStatGrid(data.length,
+    data.filter(d=>d.status==="Belum Dilayani").length,
+    data.filter(d=>d.status==="Sudah Dilayani").length,
+    data.filter(d=>d.status==="Batal").length,
+    label);
 }
 
-function setFilterGudang(f,el){ filterGudang=f; document.querySelectorAll("#tab-gudang .filter-bar:nth-child(2) .chip").forEach(c=>c.classList.remove("active")); el.classList.add("active"); renderGudang(); }
-function setFilterKategori(f,el){ filterKategori=f; document.querySelectorAll("#filter-bar-kategori .chip").forEach(c=>c.classList.remove("active")); el.classList.add("active"); renderGudang(); }
-function setFilterJenis(f,el){ filterJenis=f; document.querySelectorAll("#filter-bar-jenis .chip").forEach(c=>c.classList.remove("active")); el.classList.add("active"); renderGudang(); }
+function renderStatGrid(total, belum, sudah, batal, labelJenis) {
+  const sub = labelJenis ? `<div style="font-size:10px;color:#999;margin-top:2px">${labelJenis}</div>` : "";
+  document.getElementById("stat-grid").innerHTML = `
+    <div class="stat total"><div class="stat-num">${total}</div><div class="stat-label">Total</div>${sub}</div>
+    <div class="stat belum"><div class="stat-num">${belum}</div><div class="stat-label">Belum Dilayani</div>${sub}</div>
+    <div class="stat sudah"><div class="stat-num">${sudah}</div><div class="stat-label">Sudah Dilayani</div>${sub}</div>
+    <div class="stat batal"><div class="stat-num">${batal}</div><div class="stat-label">Batal</div>${sub}</div>`;
+}
+
+function setFilterGudang(f,el) {
+  filterGudang=f; pagGudang=1;
+  document.querySelectorAll("#tab-gudang .filter-bar:nth-child(3) .chip").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active"); renderGudang();
+}
+function setFilterKategori(f,el) {
+  filterKategori=f; pagGudang=1;
+  document.querySelectorAll("#filter-bar-kategori .chip").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active"); renderGudang();
+}
+function setFilterJenis(f,el) {
+  filterJenis=f; pagGudang=1;
+  document.querySelectorAll("#filter-bar-jenis .chip").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active"); renderGudang();
+}
+function resetPagGudang() { pagGudang=1; renderGudang(); }
+
+// ── DETEKSI DUPLIKAT ID MUTASI ──
+function getDuplikatIdMutasi(data) {
+  const counter = {};
+  data.forEach(d => {
+    const id = String(d.noIdMutasi ?? "").trim();
+    if (!id) return;
+    counter[id] = (counter[id] || 0) + 1;
+  });
+  return new Set(Object.keys(counter).filter(k => counter[k] > 1));
+}
 
 function renderGudang() {
-  const q=(document.getElementById("search-gudang").value||"").toLowerCase();
-  const data=dataGudang.filter(d=>{
-    const matchStatus   =filterGudang==="semua"||d.status===filterGudang;
-    const matchKategori =filterKategori==="semua"||(d.kategori||"").toLowerCase()===filterKategori.toLowerCase();
-    const matchJenis    =filterJenis==="semua"||(d.jenisAmprahan||"").toLowerCase()===filterJenis.toLowerCase();
-    const matchQ=!q||(d.asalRuangan||"").toLowerCase().includes(q)||(d.namaPetugas||"").toLowerCase().includes(q)||(d.idTransaksi||"").toLowerCase().includes(q)||(d.noIdMutasi||"").toLowerCase().includes(q);
-    return matchStatus&&matchKategori&&matchJenis&&matchQ;
+  const q = (document.getElementById("search-gudang").value||"").toLowerCase();
+
+  // Data dasar untuk STATS: ikut filter Kategori & Jenis, TAPI TIDAK ikut filter Status
+  // (karena stats sendiri adalah breakdown per status) dan tidak ikut search box.
+  const dataUntukStats = dataGudang.filter(d => {
+    const mK = filterKategori==="semua" || (d.kategori||"").toLowerCase()===filterKategori.toLowerCase();
+    const mJ = filterJenis==="semua"    || (d.jenisAmprahan||"").toLowerCase()===filterJenis.toLowerCase();
+    return mK && mJ;
   });
-  const el=document.getElementById("list-gudang");
-  if(!data.length){el.innerHTML=`<div class="empty">Tidak ada data ditemukan.</div>`;return;}
-  el.innerHTML=data.map(d=>ampItemHtml(d,true)).join("");
+  hitungStatLokal(dataUntukStats);
+
+  // Data untuk LIST: ikut semua filter (status, kategori, jenis, search)
+  const data = dataGudang.filter(d => {
+    const mS = filterGudang==="semua"   || d.status===filterGudang;
+    const mK = filterKategori==="semua" || (d.kategori||"").toLowerCase()===filterKategori.toLowerCase();
+    const mJ = filterJenis==="semua"    || (d.jenisAmprahan||"").toLowerCase()===filterJenis.toLowerCase();
+    const mQ = !q||(d.asalRuangan||"").toLowerCase().includes(q)||(d.namaPetugas||"").toLowerCase().includes(q)||(d.idTransaksi||"").toLowerCase().includes(q)||String(d.noIdMutasi??"").toLowerCase().includes(q);
+    return mS&&mK&&mJ&&mQ;
+  });
+  const el = document.getElementById("list-gudang");
+  if (!data.length) {
+    el.innerHTML=`<div class="empty">Tidak ada data ditemukan.</div>`;
+    document.getElementById("pag-gudang").innerHTML="";
+    return;
+  }
+  const totalHal = Math.ceil(data.length / PAGE_SIZE);
+  if (pagGudang > totalHal) pagGudang = totalHal;
+  const slice = data.slice((pagGudang-1)*PAGE_SIZE, pagGudang*PAGE_SIZE);
+  el.innerHTML = slice.map(d=>ampItemHtml(d,true)).join("");
+  renderPagination("pag-gudang", pagGudang, totalHal, data.length, "gotoPagGudang");
 }
 
-// ══════════════════════════════════════════════
-//  RENDER ITEM AMPRAHAN
-// ══════════════════════════════════════════════
+// ── PAGINATION RENDERER ───────────────────────
+// onPageFnName harus berupa NAMA fungsi global (string), misal "gotoPagStatus",
+// bukan fungsi/closure langsung — supaya aman saat disisipkan ke atribut onclick.
+function renderPagination(containerId, halAktif, totalHal, totalData, onPageFnName) {
+  const el = document.getElementById(containerId);
+  if (totalHal <= 1) { el.innerHTML=""; return; }
+
+  const awal = (halAktif-1)*PAGE_SIZE + 1;
+  const akhir = Math.min(halAktif*PAGE_SIZE, totalData);
+
+  let pages = [];
+  if (totalHal <= 7) {
+    for (let i=1;i<=totalHal;i++) pages.push(i);
+  } else {
+    pages = [1];
+    if (halAktif > 3) pages.push("...");
+    for (let i=Math.max(2,halAktif-1); i<=Math.min(totalHal-1,halAktif+1); i++) pages.push(i);
+    if (halAktif < totalHal-2) pages.push("...");
+    pages.push(totalHal);
+  }
+
+  const tombol = pages.map(p => {
+    if (p==="...") return `<span class="pag-info">…</span>`;
+    return `<button class="pag-btn${p===halAktif?" active":""}" onclick="${onPageFnName}(${p})">${p}</button>`;
+  }).join("");
+
+  el.innerHTML = `
+    <div class="pagination">
+      <button class="pag-btn" onclick="${onPageFnName}(${halAktif-1})" ${halAktif===1?"disabled":""}>‹ Prev</button>
+      ${tombol}
+      <button class="pag-btn" onclick="${onPageFnName}(${halAktif+1})" ${halAktif===totalHal?"disabled":""}>Next ›</button>
+      <span class="pag-info">${awal}–${akhir} dari ${totalData}</span>
+    </div>`;
+}
+
+function gotoPagStatus(p) { pagStatus = p; renderStatus(); }
+function gotoPagGudang(p) { pagGudang = p; renderGudang(); }
+
+// ── RENDER ITEM ───────────────────────────────
 function ampItemHtml(d,isGudang) {
-  const statusClass=d.status==="Sudah Dilayani"?"sudah":d.status==="Batal"?"batal":"belum";
-  const badgeClass ="badge-"+statusClass;
+  const sc = d.status==="Sudah Dilayani"?"sudah":d.status==="Batal"?"batal":"belum";
+  const idMutasiHtml = dupSet.has(String(d.noIdMutasi??'').trim())
+    ? `<span class="amp-idmutasi-dup" title="ID Mutasi ini dipakai lebih dari satu kali">${d.noIdMutasi}</span>`
+    : d.noIdMutasi;
   return `
-  <div class="amp-item ${statusClass}">
+  <div class="amp-item ${sc}">
     <div class="amp-header">
       <div><span class="amp-id">${d.idTransaksi}</span><span style="font-size:11px;color:#999;margin-left:8px">${d.timestamp||""}</span></div>
-      <span class="badge ${badgeClass}">${d.status}</span>
+      <span class="badge badge-${sc}">${d.status}</span>
     </div>
     <div class="amp-meta">
       <span>🏥 ${d.asalRuangan}</span><span>👤 ${d.namaPetugas}</span>
       <span>💊 ${d.jenisAmprahan}</span><span>⚡ ${d.kategori}</span>
-      <span>🔖 ID Mutasi: ${d.noIdMutasi}</span><span>📅 ${d.tglAmprahan}</span>
+      <span>🔖 ID Mutasi: ${idMutasiHtml}</span><span>📅 ${d.tglAmprahan}</span>
     </div>
-    ${d.catatanGudang?`<div class="amp-catatan">💬 Gudang: ${d.catatanGudang}${d.tglBalasan?" · "+d.tglBalasan:""}</div>`:""}
-    ${isGudang?`<div style="margin-top:10px"><button class="btn btn-warning btn-sm" onclick="bukaModal('${d.idTransaksi}')">✏️ Update Status</button></div>`:""}
+    ${d.keterangan ? `<div class="amp-keterangan">📝 Keterangan: ${d.keterangan}</div>` : ""}
+    ${d.catatanGudang ? `<div class="amp-catatan">💬 Gudang: ${d.catatanGudang}${d.tglBalasan ? " · "+d.tglBalasan : ""}</div>` : ""}
+    ${isGudang ? `<div style="margin-top:10px"><button class="btn btn-warning btn-sm" onclick="bukaModal('${d.idTransaksi}')">✏️ Update Status</button></div>` : ""}
   </div>`;
 }
 
-// ══════════════════════════════════════════════
-//  MODAL UPDATE STATUS
-// ══════════════════════════════════════════════
-function bukaModal(idTransaksi) {
-  const d=dataGudang.find(x=>x.idTransaksi===idTransaksi);
-  if(!d) return;
-  editId=idTransaksi;
-  document.getElementById("modal-detail").innerHTML=`
+// ── MODAL ─────────────────────────────────────
+function bukaModal(id) {
+  const d = dataGudang.find(x=>x.idTransaksi===id);
+  if (!d) return;
+  editId = id;
+  document.getElementById("modal-detail").innerHTML = `
     <div class="modal-row"><span>ID Transaksi</span><span><b>${d.idTransaksi}</b></span></div>
     <div class="modal-row"><span>Ruangan</span><span>${d.asalRuangan}</span></div>
     <div class="modal-row"><span>Petugas</span><span>${d.namaPetugas}</span></div>
     <div class="modal-row"><span>Jenis</span><span>${d.jenisAmprahan} · ${d.kategori}</span></div>
     <div class="modal-row"><span>ID Mutasi</span><span>${d.noIdMutasi}</span></div>
-    <div class="modal-row"><span>Status saat ini</span><span>${d.status}</span></div>`;
+    <div class="modal-row"><span>Status saat ini</span><span>${d.status}</span></div>
+    ${d.keterangan ? `<div class="modal-row"><span>Keterangan peminta</span><span style="color:#555;font-size:12px;max-width:200px;text-align:right">${d.keterangan}</span></div>` : ""}`;
   document.getElementById("modal-status").value  = d.status;
   document.getElementById("modal-catatan").value = d.catatanGudang||"";
   document.getElementById("modal-update").classList.add("open");
 }
 
-function tutupModal(){ document.getElementById("modal-update").classList.remove("open"); editId=null; }
+function tutupModal() { document.getElementById("modal-update").classList.remove("open"); editId=null; }
 
 async function simpanStatus() {
-  if(!editId) return;
+  if (!editId) return;
   const status  = document.getElementById("modal-status").value;
   const catatan = document.getElementById("modal-catatan").value.trim();
   const btn     = document.getElementById("btn-simpan-status");
   btn.disabled=true; btn.textContent="Menyimpan...";
   try {
     const res = await api({ action:"updateStatus", idTransaksi:editId, status, catatan });
-    if(res.ok){
-      showToast("✅ Status berhasil diperbarui.","success");
-      tutupModal();
-      loadGudang();
-    } else { showToast("Gagal: "+res.msg,"error"); }
-  } catch(e){ showToast("Gagal terhubung ke server.","error"); }
+    if (res.ok) { showToast("✅ Status berhasil diperbarui.","success"); tutupModal(); loadGudang(); }
+    else showToast("Gagal: "+res.msg,"error");
+  } catch(e) { showToast("Gagal terhubung ke server.","error"); }
   btn.disabled=false; btn.textContent="Simpan";
 }
 
-// ══════════════════════════════════════════════
-//  ██████╗ ██╗   ██╗███████╗██╗  ██╗
-//  ██╔══██╗██║   ██║██╔════╝██║  ██║
-//  ██████╔╝██║   ██║███████╗███████║
-//  ██╔═══╝ ██║   ██║╚════██║██╔══██║
-//  ██║     ╚██████╔╝███████║██║  ██║
-//  NOTIFIKASI SISTEM
-// ══════════════════════════════════════════════
-
-/** Kunci localStorage per user agar notif tidak bercampur */
-function notifKey() {
-  return user ? `notif_amprahan_${user.nama}_${user.ruangan}` : "notif_amprahan";
-}
-function snapshotKey() {
-  return user ? `snap_amprahan_${user.nama}_${user.ruangan}` : "snap_amprahan";
-}
-
-// ── SETUP & IZIN ──
-async function setupNotifikasi() {
-  perbaruiStatusNotifUI();
-
-  if (!("Notification" in window)) {
-    // Browser tidak support — sembunyikan semua elemen notif
-    return;
-  }
-
-  // Tampilkan banner jika izin belum diberikan
-  if (Notification.permission === "default") {
-    const isGudang = ["gudang_obat","gudang_bhp","kepala_gudang"].includes(user.role);
-    const bannerId = isGudang ? "notif-banner-gudang" : "notif-banner";
-    const statusBanner = document.getElementById("notif-banner-status");
-    if (statusBanner) statusBanner.style.display = "flex";
-    const el = document.getElementById(bannerId);
-    if (el) el.style.display = "flex";
-  }
-
-  perbaruiStatusNotifUI();
-}
-
-async function mintaIzinNotif() {
-  if (!("Notification" in window)) {
-    showToast("Browser Anda tidak mendukung notifikasi.", "error"); return;
-  }
-
-  const permission = await Notification.requestPermission();
-  perbaruiStatusNotifUI();
-
-  // Sembunyikan semua banner
-  ["notif-banner","notif-banner-status","notif-banner-gudang"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = "none";
-  });
-
-  if (permission === "granted") {
-    showToast("🔔 Notifikasi berhasil diaktifkan!", "success");
-    // Kirim notif uji coba
-    kirimPushNotif(
-      "🔔 Notifikasi Aktif!",
-      "Anda akan menerima pemberitahuan di sini saat ada update amprahan.",
-      { silent: true }
-    );
-  } else if (permission === "denied") {
-    showToast("Notifikasi ditolak. Ubah pengaturan di browser Anda.", "error");
-  }
-}
-
-function perbaruiStatusNotifUI() {
-  const indicator = document.getElementById("notif-status-indicator");
-  const infoEl    = document.getElementById("notif-permission-info");
-  if (!("Notification" in window)) {
-    if (indicator) indicator.innerHTML = `<span class="notif-status nonaktif"><span class="notif-dot-small"></span>Tidak didukung</span>`;
-    if (infoEl) infoEl.textContent = "Browser Anda tidak mendukung notifikasi.";
-    return;
-  }
-  const p = Notification.permission;
-  const map = {
-    granted: { cls:"aktif",   txt:"Aktif",    info:"✅ Notifikasi browser aktif." },
-    denied:  { cls:"nonaktif",txt:"Diblokir", info:"🚫 Notifikasi diblokir. Ubah di pengaturan browser." },
-    default: { cls:"pending", txt:"Belum aktif",info:'⚠️ Klik "Aktifkan" untuk mengizinkan notifikasi.' },
-  };
-  const m = map[p] || map.default;
-  if (indicator) indicator.innerHTML = `<span class="notif-status ${m.cls}"><span class="notif-dot-small"></span>${m.txt}</span>`;
-  if (infoEl) infoEl.textContent = m.info;
-}
-
-// ── PUSH NOTIFICATION (pojok layar) ──
-function kirimPushNotif(judul, isi, opts = {}) {
-  if (!("Notification" in window)) return;
-  if (Notification.permission !== "granted") return;
-  try {
-    const n = new Notification(judul, {
-      body: isi,
-      icon: opts.icon || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>💊</text></svg>",
-      badge: opts.badge || undefined,
-      tag:   opts.tag   || ("amprahan-" + Date.now()),
-      silent: opts.silent || false,
-      requireInteraction: opts.requireInteraction || false,
-    });
-    // Auto close setelah 8 detik kecuali requireInteraction
-    if (!opts.requireInteraction) setTimeout(() => n.close(), 8000);
-    n.onclick = () => { window.focus(); n.close(); };
-  } catch(e) { /* silently fail */ }
-}
-
-// ── IN-APP NOTIF ──
-function tambahNotif({ msg, icon = "🔔", type = "info" }) {
-  const id = Date.now() + "_" + Math.random().toString(36).slice(2,6);
-  const item = { id, msg, icon, time: new Date().toISOString(), read: false, type };
-  notifList.unshift(item);
-  // Simpan maks 50 notif terakhir
-  if (notifList.length > 50) notifList.splice(50);
-  simpanNotifKeStorage();
-  perbaruiBadge();
-  renderNotifPanel();
-}
-
-function tandaiSemuaTerbaca() {
-  notifList.forEach(n => n.read = true);
-  notifUnread = 0;
-  simpanNotifKeStorage();
-  perbaruiBadge();
-  renderNotifPanel();
-}
-
-function hapusSemuaNotif() {
-  notifList = [];
-  notifUnread = 0;
-  simpanNotifKeStorage();
-  perbaruiBadge();
-  renderNotifPanel();
-}
-
-function tandaiSatuTerbaca(id) {
-  const n = notifList.find(x => x.id === id);
-  if (n && !n.read) { n.read = true; notifUnread = Math.max(0, notifUnread - 1); }
-  simpanNotifKeStorage();
-  perbaruiBadge();
-  renderNotifPanel();
-}
-
-function simpanNotifKeStorage() {
-  try {
-    localStorage.setItem(notifKey(), JSON.stringify({ list: notifList, unread: notifUnread }));
-  } catch(e){}
-}
-
-function muatNotifDariStorage() {
-  try {
-    const raw = localStorage.getItem(notifKey());
-    if (raw) {
-      const obj = JSON.parse(raw);
-      notifList   = obj.list   || [];
-      notifUnread = obj.unread || notifList.filter(n=>!n.read).length;
-    } else { notifList=[]; notifUnread=0; }
-  } catch(e) { notifList=[]; notifUnread=0; }
-  perbaruiBadge();
-  renderNotifPanel();
-
-  // Muat snapshot
-  try {
-    const raw2 = localStorage.getItem(snapshotKey());
-    if (raw2) {
-      const obj = JSON.parse(raw2);
-      snapshotIds    = new Set(obj.ids || []);
-      snapshotStatus = obj.status || {};
-    }
-  } catch(e){}
-}
-
-function simpanSnapshot() {
-  try {
-    localStorage.setItem(snapshotKey(), JSON.stringify({
-      ids:    [...snapshotIds],
-      status: snapshotStatus,
-    }));
-  } catch(e){}
-}
-
-function perbaruiBadge() {
-  notifUnread = notifList.filter(n=>!n.read).length;
-  const badge = document.getElementById("notif-badge");
-  if (!badge) return;
-  if (notifUnread > 0) {
-    badge.textContent = notifUnread > 99 ? "99+" : notifUnread;
-    badge.classList.add("visible","pulse");
-  } else {
-    badge.classList.remove("visible","pulse");
-  }
-}
-
-function renderNotifPanel() {
-  const el = document.getElementById("notif-list");
-  if (!el) return;
-  if (!notifList.length) {
-    el.innerHTML = `<div class="notif-empty">🔕 Belum ada notifikasi</div>`; return;
-  }
-  el.innerHTML = notifList.map(n => `
-    <div class="notif-item ${n.read?'':'unread'}" onclick="tandaiSatuTerbaca('${n.id}')">
-      <div class="notif-icon">${n.icon}</div>
-      <div class="notif-body">
-        <div class="notif-msg">${n.msg}</div>
-        <div class="notif-time">${formatWaktuNotif(n.time)}</div>
-      </div>
-      ${!n.read ? `<div class="notif-dot"></div>` : ""}
-    </div>`).join("");
-}
-
-function formatWaktuNotif(iso) {
-  try {
-    const d   = new Date(iso);
-    const now = new Date();
-    const diff = Math.floor((now - d) / 1000);
-    if (diff < 60)  return "Baru saja";
-    if (diff < 3600)return Math.floor(diff/60) + " menit lalu";
-    if (diff < 86400)return Math.floor(diff/3600) + " jam lalu";
-    return d.toLocaleDateString("id-ID", { day:"numeric", month:"short", hour:"2-digit", minute:"2-digit" });
-  } catch(e){ return ""; }
-}
-
-function toggleNotifPanel() {
-  const panel = document.getElementById("notif-panel");
-  panel.classList.toggle("open");
-  if (panel.classList.contains("open")) {
-    perbaruiStatusNotifUI();
-    renderNotifPanel();
-  }
-}
-
-// Tutup panel notif klik di luar
-document.addEventListener("click", function(e) {
-  const panel = document.getElementById("notif-panel");
-  const bell  = document.getElementById("notif-bell-btn");
-  if (panel && panel.classList.contains("open") &&
-      !panel.contains(e.target) && !bell.contains(e.target)) {
-    panel.classList.remove("open");
-  }
-});
-
-// ══════════════════════════════════════════════
-//  POLLING BACKGROUND
-//  Mendeteksi perubahan data & mengirim notifikasi
-// ══════════════════════════════════════════════
-function mulaiPolling() {
-  hentiPolling();
-  // Polling pertama langsung setelah delay kecil
-  setTimeout(pollBackground, 3000);
-  pollTimer = setInterval(pollBackground, POLL_INTERVAL_MS);
-}
-
-function hentiPolling() {
-  if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
-}
-
-async function pollBackground() {
-  if (!user) return;
-  try {
-    const res = await api({ action:"getAmprahan", role:user.role, nama:user.nama, ruangan:user.ruangan });
-    if (!res.ok) return;
-
-    const data = res.data.filter(d => isJenisSesuaiRole(d.jenisAmprahan, user.role));
-
-    const isGudang  = ["gudang_obat","gudang_bhp","kepala_gudang"].includes(user.role);
-    const isPeminta = user.role === "peminta";
-
-    // Inisialisasi snapshot jika masih kosong (sesi pertama)
-    const isFirstPoll = snapshotIds.size === 0 && Object.keys(snapshotStatus).length === 0;
-    if (isFirstPoll) {
-      data.forEach(d => {
-        snapshotIds.add(d.idTransaksi);
-        snapshotStatus[d.idTransaksi] = d.status;
-      });
-      simpanSnapshot();
-      return; // Jangan kirim notif di poll pertama
-    }
-
-    // ── DETEKSI AMPRAHAN BARU (untuk gudang) ──
-    if (isGudang) {
-      const newItems = data.filter(d => !snapshotIds.has(d.idTransaksi));
-      newItems.forEach(d => {
-        const isCito = (d.kategori||"").toLowerCase() === "cito";
-        const msg = `📥 Amprahan baru masuk: ${d.idTransaksi} dari ${d.asalRuangan} (${d.jenisAmprahan} · ${d.kategori})`;
-
-        tambahNotif({ msg, icon: isCito ? "⚡" : "📥", type: "baru" });
-
-        kirimPushNotif(
-          isCito ? "⚡ CITO! Amprahan Baru Masuk" : "📥 Amprahan Baru",
-          `${d.asalRuangan} · ${d.jenisAmprahan} · ${d.kategori}\nID: ${d.idTransaksi}`,
-          { requireInteraction: isCito, tag: "amp-baru-" + d.idTransaksi }
-        );
-      });
-    }
-
-    // ── DETEKSI PERUBAHAN STATUS (untuk peminta) ──
-    if (isPeminta) {
-      data.forEach(d => {
-        const statusLama = snapshotStatus[d.idTransaksi];
-        if (statusLama && statusLama !== d.status) {
-          const iconMap = { "Sudah Dilayani":"✅","Batal":"❌","Belum Dilayani":"⏳" };
-          const msg = `${iconMap[d.status]||"🔄"} Amprahan ${d.idTransaksi} diperbarui: ${statusLama} → ${d.status}`;
-          tambahNotif({ msg, icon: iconMap[d.status]||"🔄", type:"update" });
-          kirimPushNotif(
-            "🔄 Status Amprahan Diperbarui",
-            `${d.idTransaksi}: ${statusLama} → ${d.status}\n${d.catatanGudang ? "Catatan: "+d.catatanGudang : ""}`,
-            { tag: "amp-update-" + d.idTransaksi }
-          );
-        }
-      });
-    }
-
-    // ── DETEKSI PERUBAHAN STATUS (untuk kepala gudang, semua perubahan) ──
-    if (user.role === "kepala_gudang") {
-      data.forEach(d => {
-        const statusLama = snapshotStatus[d.idTransaksi];
-        if (statusLama && statusLama !== d.status) {
-          const iconMap = { "Sudah Dilayani":"✅","Batal":"❌","Belum Dilayani":"⏳" };
-          const msg = `${iconMap[d.status]||"🔄"} ${d.idTransaksi} (${d.asalRuangan}) → ${d.status}`;
-          tambahNotif({ msg, icon: iconMap[d.status]||"🔄", type:"update" });
-        }
-      });
-    }
-
-    // Update snapshot
-    data.forEach(d => {
-      snapshotIds.add(d.idTransaksi);
-      snapshotStatus[d.idTransaksi] = d.status;
-    });
-    simpanSnapshot();
-
-  } catch(e) { /* silently fail — jangan ganggu UX */ }
-}
-
-// ══════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════
-function hariIni(){ return new Date().toISOString().split("T")[0]; }
-function loadingHtml(){ return `<div class="loading"><div class="spinner"></div><br>Memuat data...</div>`; }
-function showToast(msg, type="info"){
+// ── HELPERS ───────────────────────────────────
+function hariIni() { return new Date().toISOString().split("T")[0]; }
+function loadingHtml() { return `<div class="loading"><div class="spinner"></div><br>Memuat data...</div>`; }
+function showToast(msg,type="info") {
   const t=document.getElementById("toast");
   t.textContent=msg; t.className="toast "+type+" show";
   setTimeout(()=>t.classList.remove("show"),3500);
 }
 
-// Tutup modal klik di luar
-document.getElementById("modal-update").addEventListener("click", function(e){ if(e.target===this) tutupModal(); });
-
-// Enter di login
-document.getElementById("login-nama").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("login-ruangan").focus(); });
+document.getElementById("modal-update").addEventListener("click",function(e){ if(e.target===this)tutupModal(); });
+document.getElementById("login-nama").addEventListener("keydown",e=>{ if(e.key==="Enter")document.getElementById("login-ruangan").focus(); });
 </script>
 </body>
 </html>
